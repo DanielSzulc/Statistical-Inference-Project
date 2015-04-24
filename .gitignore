@@ -12,3 +12,9 @@
 vignettes/*.html
 vignettes/*.pdf
 .Rproj.user
+
+# Excluding specific output files
+*.pdf
+*.log
+*.docx
+*.html
