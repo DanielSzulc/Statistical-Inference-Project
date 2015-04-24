@@ -1,0 +1,37 @@
+---
+title: "Coursera's Statistical Inference Final Project - Part 1: Simulation"
+author: "Daniel Szulc"
+date: "Friday, April 24, 2015"
+
+---
+
+## Overview
+
+## Simulation
+
+Let's set a random number generator seed (to make sure that this simulation is fully reproducible) and simulate the exponential distirbution.  
+We are conducting two simulations.
+
+```{r}
+set.seed(seed = 10)
+n <- 1000
+lambda <- 0.2
+sample.size <- 40
+
+population <- rexp(n,lambda)
+means <- sapply(seq_len(n), function(x) mean(rexp(sample.size,lambda)))
+```
+
+## Sample Mean versus Theoretical Mean
+```{r}
+library(ggplot2)
+ggplot(data.frame(x=c(population,means), label=factor(rep(c("population","means"),c(n,n)))),aes(x, fill=label))+geom_density(alpha=0.2)+geom_vline(xintercept = 1/lambda, size=1, color="red")+geom_vline(xintercept=mean(means),color="blue")+labs(title="Sample mean (sample size=40) versus Theoretical Mean")+annotate("text", label = "Theoretical mean= 1/lambda", x = 6, y = 0.3, size = 4, colour = "red", hjust=0)
+```
+ 
+## Sample Variance versus Theoretical Variance
+```{r}
+theoretical<-rnorm(n,mean=1/lambda,sd=1/lambda/sqrt(sample.size))
+
+ggplot(data.frame(x=c(means,theoretical), label=factor(rep(c("means","theoretical"),c(n,n)))),aes(x, fill=label))+geom_density(alpha=0.2)+geom_vline(xintercept = 1/lambda, size=2, color="red")+labs(title="Sample mean (sample size=40) versus Theoretical Mean")+annotate("text", label = "Theoretical mean= 1/lambda", x = 6, y = 0.3, size = 4, colour = "red", hjust=0)
+```
+## Approximately normal sampling distribution
