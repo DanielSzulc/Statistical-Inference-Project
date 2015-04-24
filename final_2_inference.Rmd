@@ -1,5 +1,5 @@
 ---
-title: 'Coursera''s Statistical Inference Final Project - Part 1: Simulation'
+title: 'Coursera''s Statistical Inference Final Project - Part 2: Inferential Analysis'
 author: "Daniel Szulc"
 date: "Friday, April 24, 2015"
 output:
@@ -13,7 +13,35 @@ opts_chunk$set(fig.width=4, fig.height=3, dev = 'pdf')
 ## Overview
 
 ## Exploratory data analysis (basic summary of the data)
+```{r exploratory}
+library(datasets)
+library(xtable)
+        library(dplyr,warn.conflicts = FALSE)
+data(ToothGrowth)
+figure <- group_by(ToothGrowth,supp,dose) %>% 
+        summarise(count = n(), mean.len=mean(len), 
+                  sd.len=signif(sd(len), digits = 3))
+figure <- xtable(figure, caption="Basic summary statistics by supp and dose")
+```
+
+```{r exploratory_table, results='asis'}
+print(figure, caption.placement="top", include.rownames=FALSE, comment=FALSE)
+```
+```{r exploratory_plots, fig.width=8}
+par(mfrow=c(1,2), mar=c(4,3,2,1))
+boxplot(len~supp, data=ToothGrowth, col="yellow", main="Tooth Growth by Delivery Method")
+boxplot(len~dose, data= ToothGrowth, col="orange", main="Tooth Growth by Dose Level")
+
+```
+```{r exploratory_plot2, fig.width=8}
+library(ggplot2)
+ggplot(ToothGrowth,aes(len))+geom_density(size=1)+theme_bw()+facet_grid(supp~dose)+geom_vline(xintercept=mean(ToothGrowth$len), col="red",linetype=2, size=0.8)+labs(title="Tooth Growth by Delivery Method and Dose")
+```
+
 
 ## Hypothesis test 
 
+t
+
 ## Conclusions
+
