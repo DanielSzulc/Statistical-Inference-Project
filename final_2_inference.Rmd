@@ -1,0 +1,19 @@
+---
+title: 'Coursera''s Statistical Inference Final Project - Part 1: Simulation'
+author: "Daniel Szulc"
+date: "Friday, April 24, 2015"
+output:
+  pdf_document: default  
+---
+```{r echo=FALSE}
+library(knitr)
+opts_chunk$set(fig.width=4, fig.height=3, dev = 'pdf')
+```
+
+## Overview
+
+## Exploratory data analysis (basic summary of the data)
+
+## Hypothesis test 
+
+## Conclusions
