@@ -11,8 +11,14 @@ opts_chunk$set(fig.width=4, fig.height=3, dev = 'pdf')
 ```
 # Report
 ## Overview
+The aim of this report is to analyse ToothGrowth dataset and to draw some conclusions regarding the entire population based on sample data contained in the ToothGrowth dataset.
+The dataset collected the data from the experiment conducted to assess the Effect of Vitamin C on Tooth Growth in Guinea Pigs.
+
 
 ## Exploratory data analysis (basic summary of the data)
+
+The response variable is the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid).
+The dataset consists of 60 observations divided on two groups based on supplementation method (OJ or VC). These two groups are further equaly divied based on dose level so each combination of supplement - dose consists exactly 10 observations.
 ```{r exploratory}
 library(datasets)
 library(xtable)
@@ -24,9 +30,13 @@ figure <- group_by(ToothGrowth,supp,dose) %>%
 figure <- xtable(figure, caption="Basic summary statistics by supp and dose")
 ```
 
+
 ```{r exploratory_table, results='asis'}
 print(figure, caption.placement="top", include.rownames=FALSE, comment=FALSE)
 ```
+
+As it is shown on the below plots, there are differences between particular groups. The pigs supplemented with Orange Juice (OJ) seems to have longer teeths. Also the higher dose level, the longer the teeths (see also Appendix 2 to examine distributions of particualr groups in detail). We have to conduct hypothisis test to check if those differences could be attributed only to sampling variability or they should be treated as convicted evidence of the real population differences.
+
 ```{r exploratory_plots, fig.width=8}
 par(mfrow=c(1,2), mar=c(4,3,2,1))
 boxplot(len~supp, data=ToothGrowth, col="yellow", main="Tooth Growth by Supplement")
@@ -36,17 +46,21 @@ boxplot(len~dose, data= ToothGrowth, col="orange", main="Tooth Growth by Dose Le
 
 
 
-## Hypothesis test 
+## Hypothesis tests 
+
+For the purpose of the hypothesis test we set the significance level on 5%. Therefore we reject null hypothesis if the p-value is higher than 0.05. However we report not only conclusions but also exact p-value, to let the reader assess the strength of the obtained evidence.
+To save some space in the section below we are presenting only p-value and confidence interval boundries. To see full output of t.test function please look at the Appendix 3.
 
 ### 1. Is there a difference between the tooth length by supp(OJ,VC)?
 $H_0$: There is no difference between supp OJ and VC in terms of tooth length.  
 $H_A$: There is a difference between supp OJ and VC in terms of tooth length.  
 
 ```{r ht_1}
-
-t.test(len ~ supp, data=ToothGrowth, paired = FALSE)
+test.1<-t.test(len ~ supp, data=ToothGrowth, paired = FALSE)
 ```
-
+```{r ht_1_table, results='asis'}
+print(xtable(data.frame(p.value=c(signif(test.1$p.value,5),""), conf.int.95= test.1$conf),caption = "Results of the test on supp (OJ and VC)"),comment=FALSE, caption.placement="top", include.rownames=FALSE)
+```
 **As the p-value is >0.05 we can conclude: no convincing evidence supporting hypothesis that there is a difference between OJ and VC**
 
 ### 2. Is there a difference between the tooth length by dose(0.5,1,2)?
@@ -57,22 +71,24 @@ $H_A$: There is a difference between supp 0.5 and 1 in terms of tooth length.
 ```{r ht_2}
 library(dplyr)
 ToothGrowth.filtered<-filter(ToothGrowth, dose %in% c(0.5,1))
-
-t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
+test.2<-t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
 ```
-
+```{r ht_2_table, results='asis'}
+print(xtable(data.frame(p.value=c(signif(test.2$p.value,5),""), conf.int.95= test.2$conf),caption = "Results of the test on dose 0.5 and 1"),comment=FALSE, caption.placement="top", include.rownames=FALSE)
+```
 **As the p-value is <0.05 we can conclude: there is convincing evidence supporting hypothesis that there is a difference between 0.5 and 1 dose**
 
-$H_0$: There is no difference between dose 0.5 and 1 in terms of tooth length.  
-$H_A$: There is a difference between supp 0.5 and 1 in terms of tooth length.  
+$H_0$: There is no difference between dose 1 and 2 in terms of tooth length.  
+$H_A$: There is a difference between supp 1 and 2 in terms of tooth length.  
 
-```{r ht_3}
+```{r ht_3,}
 library(dplyr)
+library(xtable)
 ToothGrowth.filtered<-filter(ToothGrowth, dose %in% c(1,2))
-
 test.3 <- t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
-print(test.3)
-
+```
+```{r ht_3_table, results='asis'}
+print(xtable(data.frame(p.value=c(signif(test.3$p.value,5),""), conf.int.95= test.3$conf),caption = "Results of the test on dose 1 and 2"),comment=FALSE, caption.placement="top", include.rownames=FALSE)
 ```
 
 **As the p-value is <0.05 we can conclude: there is convincing evidence supporting hypothesis that there is a difference between 1 and 2 dose**
@@ -94,7 +110,8 @@ The conclusions are based on the following assumptions:
 5.  The variance between groups is not equal.
 
 # Appendix
-### 1. Symettry of the data's distributions
+
+## 1. Symettry of the data's distributions  
 ```{r appendix_1, fig.width=8, fig.height=6}
 s<-split(ToothGrowth,f = list(ToothGrowth$supp, ToothGrowth$dose))
 par(mfcol=c(2,3))
@@ -104,10 +121,18 @@ mtext(text = "Normal probability plots", outer=TRUE)
 
 ```
 
-### 2.  The differences in teeth growth by Supplement and Dose
 
+##  2. The differences in teeth growth by Supplement and Dose
 ```{r appendix_2, fig.width=8, fig.cap="Fig"}
 library(ggplot2)
 ggplot(ToothGrowth,aes(len))+geom_density(size=1)+theme_bw()+facet_grid(supp~dose)+geom_vline(xintercept=mean(ToothGrowth$len), col="red",linetype=2, size=0.8)+labs(title="Tooth Growth by Supplement and Dose")
 
+```
+The dashed red lines reflect the mean of the entire sample.
+
+## 3. Full hypothesis tests results
+```{r appendix_3}
+print(test.1)
+print(test.2)
+print(test.3)
 ```
