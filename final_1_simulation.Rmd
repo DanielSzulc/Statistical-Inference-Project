@@ -58,7 +58,7 @@ ggplot(data.frame(x=means), aes(x))+geom_density(alpha=0.2, fill="salmon")+
  
 ## Sample Variance versus Theoretical Variance
 
-According to the Central Limit Theorem, we expect that variance of the distribution of sample means for large enough sample size is equal to population standard deviation divided by square root of sample size. We know that the standard deviation of exponential distribution is equal to $\frac{1}{\lambda}$, therefore in this case $\frac{1}{0.2}=5$. The theoretical sample standard deviation should be therefore equal to $\frac{5}{\sqrt{40}}$. As the standard deviation is the square root of the variance we know that theoretical sample variance is equal to $(\frac{5}{\sqrt{40}})^2$ so in this case `r (5/sqrt(40))^2`. The simulated sample variance is equal to `r var(means)` so it's very close.
+According to the Central Limit Theorem, we expect that the standard deviation of the distribution of sample means for large enough sample size is equal to population standard deviation divided by square root of sample size. We know that the standard deviation of exponential distribution is equal to $\frac{1}{\lambda}$, therefore in this case $\frac{1}{0.2}=5$. The theoretical sample standard deviation should be therefore equal to $\frac{5}{\sqrt{40}}$. As the standard deviation is the square root of the variance we know that theoretical sample variance is equal to $(\frac{5}{\sqrt{40}})^2$ so in this case `r (5/sqrt(40))^2`. The simulated sample variance is equal to `r var(means)` so it's very close.
 
 ```{r, fig.cap="Fig 2"}
 library(xtable)
@@ -72,8 +72,8 @@ print(figure, comment=FALSE, caption.placement="top", include.rownames=FALSE)
 ```
 
 ## Approximately normal sampling distribution
-According to the Central Limit Theorem, we expect that the distribution of sample means is normal for large enough sample sizes. The plot below presents the distribution of observations drawn from the normal distribution with the mean 5 and standard deviation 5. As we can see, our distribution of sample follow the normal distribution pattern pretty closely. 
-As the additional prove please the normal probability plot in the Appendix. In case of normally distributed data, all data points should lay close to the diagonal line. We can see that this condition is fairly met. Minor deviations in the both end of distribution may be due to not large enough sample size (remember, it is only 40 observations).
+According to the Central Limit Theorem, we expect that the distribution of sample means is normal for large enough sample sizes. The plot below presents the distribution of observations drawn from the normal distribution with the mean 5 and standard deviation 5. As we can see, our distribution of sample means follow the normal distribution pattern pretty closely. 
+As the additional prove please see the normal probability plot in the **Appendix**. In case of normally distributed data, all data points should lay close to the diagonal line. We can see that this condition is fairly met. Minor deviations in the both end of distribution may be due to not large enough sample size (remember, it is only 40 observations).
 
 ```{r fig.width=8}
 ggplot(
