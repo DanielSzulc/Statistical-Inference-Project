@@ -7,13 +7,13 @@ output:
 ---
 ```{r echo=FALSE}
 library(knitr)
-opts_chunk$set(fig.width=4, fig.height=3, dev = 'pdf')
+opts_chunk$set(fig.width=8, fig.height=3, dev = 'pdf')
 ```
 ## Overview
 
 ## Simulation
 
-Let's set a random number generator seed (to make sure that this simulation is fully reproducible) and simulate the exponential distirbution.  
+Let's set a random number generator seed (to make sure that this simulation is fully reproducible) and simulate the exponential distribution.  
 We are conducting two simulations.
 
 ```{r}
@@ -26,24 +26,44 @@ population <- rexp(n,lambda)
 means <- sapply(seq_len(n), function(x) mean(rexp(sample.size,lambda)))
 
 library(ggplot2)
-ggplot(data.frame(x=c(population,means), label=factor(rep(c("population","means"),c(n,n)))),aes(x, fill=label))+geom_density(alpha=0.2)
+ggplot(data.frame(x=c(population,means),
+                  label=factor(rep(c("population","means"),c(n,n)))),
+       aes(x, fill=label))+
+geom_density(alpha=0.2)
 ```
 
 ## Sample Mean versus Theoretical Mean
 ```{r}
 library(ggplot2)
-ggplot(data.frame(x=means), aes(x))+geom_density(alpha=0.2, fill="salmon")+geom_vline(xintercept=mean(means),color="blue")+geom_vline(xintercept=1/lambda, color="red")+labs(title="Sample mean (sample size=40) versus Theoretical Mean", size=3)+annotate("text", label = "Theoretical mean= 1/lambda", x = 3.1, y = 0.4, size = 4, colour = "red", hjust=0)+annotate("text", label = "Sample Mean", x = 5.2, y = 0.3, size = 4, colour = "blue", hjust=0)
+ggplot(data.frame(x=means), aes(x))+geom_density(alpha=0.2, fill="salmon")+
+        geom_vline(xintercept=mean(means),color="blue")+
+        geom_vline(xintercept=1/lambda, color="red")+
+        labs(title="Sample mean (sample size=40) versus Theoretical Mean", 
+             size=3)+
+        annotate("text", label = "Theoretical mean= 1/lambda", x = 3.1, y = 0.4,
+                 size = 4, colour = "red", hjust=0)+
+        annotate("text", label = "Sample Mean", x = 5.2, y = 0.3, size = 4, 
+                 colour = "blue", hjust=0)
 ```
  
 ## Sample Variance versus Theoretical Variance
 ```{r, fig.cap="Fig 2"}
-print(data.frame(Description=c("Theoretical Variance","Sample Variance"), Value=c((1/lambda/sqrt(sample.size))^2,var(means))))
-
+library(xtable)
+figure <- xtable(
+        data.frame(Description=c("Theoretical Variance","Sample Variance"), 
+                   Value=c((1/lambda/sqrt(sample.size))^2,var(means))),
+        caption="Comparision Theoretical Variance versus Sample Variance")
+```
+```{r results='asis'}
+print(figure, comment=FALSE, caption.placement="top", include.rownames=FALSE)
 ```
 
 ## Approximately normal sampling distribution
-```{r}
-ggplot(data.frame(x=c(rnorm(n,1/lambda,1/lambda/sqrt(sample.size)),means), label=factor(rep(c("normal distribution","distribution of means"),c(n,n)))),aes(x, fill=label))+geom_density(alpha=0.2)
+```{r fig.width=8}
+ggplot(
+        data.frame(x=c(rnorm(n,1/lambda,1/lambda/sqrt(sample.size)),means), 
+                   label=factor(rep(c("normal distribution","distribution of means"),c(n,n)))), 
+       aes(x, fill=label))+geom_density(alpha=0.2)
 qqnorm(means)
 qqline(means)
 ```
