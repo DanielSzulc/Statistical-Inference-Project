@@ -9,7 +9,7 @@ output:
 library(knitr)
 opts_chunk$set(fig.width=4, fig.height=3, dev = 'pdf')
 ```
-
+# Report
 ## Overview
 
 ## Exploratory data analysis (basic summary of the data)
@@ -29,15 +29,11 @@ print(figure, caption.placement="top", include.rownames=FALSE, comment=FALSE)
 ```
 ```{r exploratory_plots, fig.width=8}
 par(mfrow=c(1,2), mar=c(4,3,2,1))
-boxplot(len~supp, data=ToothGrowth, col="yellow", main="Tooth Growth by Delivery Method")
+boxplot(len~supp, data=ToothGrowth, col="yellow", main="Tooth Growth by Supplement")
 boxplot(len~dose, data= ToothGrowth, col="orange", main="Tooth Growth by Dose Level")
 
 ```
-```{r exploratory_plot2, fig.width=8, fig.cap="Fig"}
-library(ggplot2)
-ggplot(ToothGrowth,aes(len))+geom_density(size=1)+theme_bw()+facet_grid(supp~dose)+geom_vline(xintercept=mean(ToothGrowth$len), col="red",linetype=2, size=0.8)+labs(title="Tooth Growth by Delivery Method and Dose")
 
-```
 
 
 ## Hypothesis test 
@@ -97,8 +93,21 @@ The conclusions are based on the following assumptions:
 4.  The distributions of the data are roguhly symmetric. Although, there is some skewness observed in particular group we can assume that symmetric distribution condition is fairly met (please see normal probability plots for particular groups in the appendix)
 5.  The variance between groups is not equal.
 
-## Appendix
+# Appendix
 ### 1. Symettry of the data's distributions
-```{r appendix}
+```{r appendix_1, fig.width=8, fig.height=6}
+s<-split(ToothGrowth,f = list(ToothGrowth$supp, ToothGrowth$dose))
+par(mfcol=c(2,3))
+par(oma=c(0,0,2,0))
+invisible(sapply(s,function(s) {qqnorm(s$len, main = paste(s$sup[1],s$dose[1],sep="-"));qqline(s$len)}))
+mtext(text = "Normal probability plots", outer=TRUE)
+
+```
+
+### 2.  The differences in teeth growth by Supplement and Dose
+
+```{r appendix_2, fig.width=8, fig.cap="Fig"}
+library(ggplot2)
+ggplot(ToothGrowth,aes(len))+geom_density(size=1)+theme_bw()+facet_grid(supp~dose)+geom_vline(xintercept=mean(ToothGrowth$len), col="red",linetype=2, size=0.8)+labs(title="Tooth Growth by Supplement and Dose")
 
 ```
