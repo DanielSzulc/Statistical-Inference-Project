@@ -85,3 +85,20 @@ Given the results of the above test and taking into account basic summary of dat
 
 ## Conclusions
 
+1.  There is no significant difference between the kind of supplementation (OJ vs VS). However the probability of obtaing such data if there is no difference between OJ and VC is not particularly high (p-value=0.06). Therefore we could recommend conduct further studies (possibliy based on larger samples) in this respect.
+2.  There is signifant difference between dose levels (0.5, 1 and 2) in terms of tooh length. The higher the dose, the longer the teeth. 
+
+
+The conclusions are based on the following assumptions:
+
+1.  The observations are independent.
+2.  The subjects are randomly assigned to particular groups (dose, supp).
+3.  The groups are not paired (independent groups).
+4.  The distributions of the data are roguhly symmetric. Although, there is some skewness observed in particular group we can assume that symmetric distribution condition is fairly met (please see normal probability plots for particular groups in the appendix)
+5.  The variance between groups is not equal.
+
+## Appendix
+### 1. Symettry of the data's distributions
+```{r appendix}
+
+```
