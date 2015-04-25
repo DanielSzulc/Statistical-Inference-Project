@@ -18,7 +18,7 @@ The dataset collected the data from the experiment conducted to assess the Effec
 ## Exploratory data analysis (basic summary of the data)
 
 The response variable is the length of odontoblasts (teeth) in each of 10 guinea pigs at each of three dose levels of Vitamin C (0.5, 1, and 2 mg) with each of two delivery methods (orange juice or ascorbic acid).
-The dataset consists of 60 observations divided on two groups based on supplementation method (OJ or VC). These two groups are further equaly divied based on dose level so each combination of supplement - dose consists exactly 10 observations.
+The dataset consists of 60 observations divided on two groups based on supplementation method (OJ or VC). These two groups are further equally divided based on dose level so each combination of supplement - dose consists exactly 10 observations.
 ```{r exploratory}
 library(datasets)
 library(xtable)
@@ -35,7 +35,7 @@ figure <- xtable(figure, caption="Basic summary statistics by supp and dose")
 print(figure, caption.placement="top", include.rownames=FALSE, comment=FALSE)
 ```
 
-As it is shown on the below plots, there are differences between particular groups. The pigs supplemented with Orange Juice (OJ) seems to have longer teeths. Also the higher dose level, the longer the teeths (see also Appendix 2 to examine distributions of particualr groups in detail). We have to conduct hypothisis test to check if those differences could be attributed only to sampling variability or they should be treated as convicted evidence of the real population differences.
+As it is shown on the below plots, there are differences between particular groups. The pigs supplemented with Orange Juice (OJ) seems to have longer teeth. Also the higher dose level, the longer the teeth (see also Appendix 2 to examine distributions of particular groups in detail). We have to conduct hypothesis test to check if those differences could be attributed only to sampling variability or they should be treated as convicted evidence of the real population differences.
 
 ```{r exploratory_plots, fig.width=8}
 par(mfrow=c(1,2), mar=c(4,3,2,1))
@@ -51,7 +51,7 @@ boxplot(len~dose, data= ToothGrowth, col="orange",
 ## Hypothesis tests 
 
 For the purpose of the hypothesis test we set the significance level on 5%. Therefore we reject null hypothesis if the p-value is higher than 0.05. However we report not only conclusions but also exact p-value, to let the reader assess the strength of the obtained evidence.
-To save some space in the section below we are presenting only p-value and confidence interval boundries. To see full output of t.test function please look at the Appendix 3. Please see Appendix 4 if you are interested in the code used to produce and formatt tables with hypothis test result.
+To save some space in the section below we are presenting only p-value and confidence interval boundaries. To see full output of t.test function please look at the Appendix 3. Please see Appendix 4 if you are interested in the code used to produce and format tables with hypothesis test result.
 
 ### 1. Is there a difference between the tooth length by supp(OJ,VC)?
 $H_0$: There is no difference between supp OJ and VC in terms of tooth length.  
@@ -108,8 +108,8 @@ Given the results of the above test and taking into account basic summary of dat
 
 ## Conclusions
 
-1.  There is no significant difference between the kind of supplementation (OJ vs VS). However the probability of obtaing such data if there is no difference between OJ and VC is not particularly high (p-value=0.06). Therefore we could recommend conduct further studies (possibliy based on larger samples) in this respect.
-2.  There is signifant difference between dose levels (0.5, 1 and 2) in terms of tooh length. The higher the dose, the longer the teeth. 
+1.  There is no significant difference between the kind of supplementation (OJ vs VS). However the probability of obtaining such data if there is no difference between OJ and VC is not particularly high (p-value=0.06). Therefore we could recommend conduct further studies (possibly based on larger samples) in this respect.
+2.  There is significant difference between dose levels (0.5, 1 and 2) in terms of tooth length. The higher the dose, the longer the teeth. 
 
 
 The conclusions are based on the following assumptions:
@@ -117,7 +117,7 @@ The conclusions are based on the following assumptions:
 1.  The observations are independent.
 2.  The subjects are randomly assigned to particular groups (dose, supp).
 3.  The groups are not paired (independent groups).
-4.  The distributions of the data are roguhly symmetric. Although, there is some skewness observed in particular group we can assume that symmetric distribution condition is fairly met (please see normal probability plots for particular groups in the appendix)
+4.  The distributions of the data are roughly symmetric. Although, there is some skewness observed in particular group we can assume that symmetric distribution condition is fairly met (please see normal probability plots for particular groups in the appendix)
 5.  The variance between groups is not equal.
 
 # Appendix
