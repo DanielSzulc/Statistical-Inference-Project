@@ -39,8 +39,10 @@ As it is shown on the below plots, there are differences between particular grou
 
 ```{r exploratory_plots, fig.width=8}
 par(mfrow=c(1,2), mar=c(4,3,2,1))
-boxplot(len~supp, data=ToothGrowth, col="yellow", main="Tooth Growth by Supplement")
-boxplot(len~dose, data= ToothGrowth, col="orange", main="Tooth Growth by Dose Level")
+boxplot(len~supp, data=ToothGrowth, col="yellow", 
+        main="Tooth Growth by Supplement")
+boxplot(len~dose, data= ToothGrowth, col="orange", 
+        main="Tooth Growth by Dose Level")
 
 ```
 
@@ -49,7 +51,7 @@ boxplot(len~dose, data= ToothGrowth, col="orange", main="Tooth Growth by Dose Le
 ## Hypothesis tests 
 
 For the purpose of the hypothesis test we set the significance level on 5%. Therefore we reject null hypothesis if the p-value is higher than 0.05. However we report not only conclusions but also exact p-value, to let the reader assess the strength of the obtained evidence.
-To save some space in the section below we are presenting only p-value and confidence interval boundries. To see full output of t.test function please look at the Appendix 3.
+To save some space in the section below we are presenting only p-value and confidence interval boundries. To see full output of t.test function please look at the Appendix 3. Please see Appendix 4 if you are interested in the code used to produce and formatt tables with hypothis test result.
 
 ### 1. Is there a difference between the tooth length by supp(OJ,VC)?
 $H_0$: There is no difference between supp OJ and VC in terms of tooth length.  
@@ -58,8 +60,11 @@ $H_A$: There is a difference between supp OJ and VC in terms of tooth length.
 ```{r ht_1}
 test.1<-t.test(len ~ supp, data=ToothGrowth, paired = FALSE)
 ```
-```{r ht_1_table, results='asis'}
-print(xtable(data.frame(p.value=c(signif(test.1$p.value,5),""), conf.int.95= test.1$conf),caption = "Results of the test on supp (OJ and VC)"),comment=FALSE, caption.placement="top", include.rownames=FALSE)
+```{r ht_1_table, results='asis', echo=FALSE}
+print(xtable(data.frame(p.value=c(signif(test.1$p.value,5),""), 
+                        conf.int.95= test.1$conf), caption = 
+                     "Results of the test on supp (OJ and VC)"), comment=FALSE,
+      caption.placement="top", include.rownames=FALSE)
 ```
 **As the p-value is >0.05 we can conclude: no convincing evidence supporting hypothesis that there is a difference between OJ and VC**
 
@@ -73,8 +78,11 @@ library(dplyr)
 ToothGrowth.filtered<-filter(ToothGrowth, dose %in% c(0.5,1))
 test.2<-t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
 ```
-```{r ht_2_table, results='asis'}
-print(xtable(data.frame(p.value=c(signif(test.2$p.value,5),""), conf.int.95= test.2$conf),caption = "Results of the test on dose 0.5 and 1"),comment=FALSE, caption.placement="top", include.rownames=FALSE)
+```{r ht_2_table, results='asis', echo=FALSE}
+print(xtable(data.frame(p.value=c(signif(test.2$p.value,5),""), 
+                        conf.int.95 = test.2$conf), 
+             caption = "Results of the test on dose 0.5 and 1"), 
+      comment=FALSE, caption.placement="top", include.rownames=FALSE)
 ```
 **As the p-value is <0.05 we can conclude: there is convincing evidence supporting hypothesis that there is a difference between 0.5 and 1 dose**
 
@@ -87,8 +95,11 @@ library(xtable)
 ToothGrowth.filtered<-filter(ToothGrowth, dose %in% c(1,2))
 test.3 <- t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
 ```
-```{r ht_3_table, results='asis'}
-print(xtable(data.frame(p.value=c(signif(test.3$p.value,5),""), conf.int.95= test.3$conf),caption = "Results of the test on dose 1 and 2"),comment=FALSE, caption.placement="top", include.rownames=FALSE)
+```{r ht_3_table, results='asis',echo=FALSE}
+print(xtable(data.frame(p.value=c(signif(test.3$p.value,5),""), 
+                        conf.int.95 = test.3$conf), 
+             caption = "Results of the test on dose 1 and 2"), comment=FALSE,
+      caption.placement="top", include.rownames=FALSE)
 ```
 
 **As the p-value is <0.05 we can conclude: there is convincing evidence supporting hypothesis that there is a difference between 1 and 2 dose**
@@ -116,7 +127,11 @@ The conclusions are based on the following assumptions:
 s<-split(ToothGrowth,f = list(ToothGrowth$supp, ToothGrowth$dose))
 par(mfcol=c(2,3))
 par(oma=c(0,0,2,0))
-invisible(sapply(s,function(s) {qqnorm(s$len, main = paste(s$sup[1],s$dose[1],sep="-"));qqline(s$len)}))
+invisible(sapply(s, 
+                 function(s) {qqnorm(s$len, main = paste(s$sup[1], 
+                                                         s$dose[1],
+                                                         sep="-")); 
+                              qqline(s$len)}))
 mtext(text = "Normal probability plots", outer=TRUE)
 
 ```
@@ -125,7 +140,13 @@ mtext(text = "Normal probability plots", outer=TRUE)
 ##  2. The differences in teeth growth by Supplement and Dose
 ```{r appendix_2, fig.width=8, fig.cap="Fig"}
 library(ggplot2)
-ggplot(ToothGrowth,aes(len))+geom_density(size=1)+theme_bw()+facet_grid(supp~dose)+geom_vline(xintercept=mean(ToothGrowth$len), col="red",linetype=2, size=0.8)+labs(title="Tooth Growth by Supplement and Dose")
+ggplot(ToothGrowth,aes(len))+
+        geom_density(size=1)+
+        theme_bw()+
+        facet_grid(supp~dose)+ 
+        geom_vline(xintercept=mean(ToothGrowth$len), col="red", 
+                   linetype=2, size=0.8)+ 
+        labs(title="Tooth Growth by Supplement and Dose")
 
 ```
 The dashed red lines reflect the mean of the entire sample.
@@ -136,3 +157,24 @@ print(test.1)
 print(test.2)
 print(test.3)
 ```
+
+## 4.  R code producing and formatting nice looked tables with hypothesis test result.
+```{r appendix_4_1, results='hide'}
+print(xtable(data.frame(p.value=c(signif(test.1$p.value,5),""), 
+                        conf.int.95= test.1$conf), caption = 
+                     "Results of the test on supp (OJ and VC)"), comment=FALSE,
+      caption.placement="top", include.rownames=FALSE)
+```
+```{r appendix_4_2, results='hide'}
+print(xtable(data.frame(p.value=c(signif(test.2$p.value,5),""), 
+                        conf.int.95 = test.2$conf), 
+             caption = "Results of the test on dose 0.5 and 1"), 
+      comment=FALSE, caption.placement="top", include.rownames=FALSE)
+```
+```{r appendix_4_3, results='hide'}
+print(xtable(data.frame(p.value=c(signif(test.3$p.value,5),""), 
+                        conf.int.95 = test.3$conf), 
+             caption = "Results of the test on dose 1 and 2"), comment=FALSE,
+      caption.placement="top", include.rownames=FALSE)
+```
+The above code was used in *Hypothesis tests* section of this report.
