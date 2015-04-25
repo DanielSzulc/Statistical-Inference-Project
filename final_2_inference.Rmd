@@ -33,15 +33,55 @@ boxplot(len~supp, data=ToothGrowth, col="yellow", main="Tooth Growth by Delivery
 boxplot(len~dose, data= ToothGrowth, col="orange", main="Tooth Growth by Dose Level")
 
 ```
-```{r exploratory_plot2, fig.width=8}
+```{r exploratory_plot2, fig.width=8, fig.cap="Fig"}
 library(ggplot2)
 ggplot(ToothGrowth,aes(len))+geom_density(size=1)+theme_bw()+facet_grid(supp~dose)+geom_vline(xintercept=mean(ToothGrowth$len), col="red",linetype=2, size=0.8)+labs(title="Tooth Growth by Delivery Method and Dose")
+
 ```
 
 
 ## Hypothesis test 
 
-t
+### 1. Is there a difference between the tooth length by supp(OJ,VC)?
+$H_0$: There is no difference between supp OJ and VC in terms of tooth length.  
+$H_A$: There is a difference between supp OJ and VC in terms of tooth length.  
+
+```{r ht_1}
+
+t.test(len ~ supp, data=ToothGrowth, paired = FALSE)
+```
+
+**As the p-value is >0.05 we can conclude: no convincing evidence supporting hypothesis that there is a difference between OJ and VC**
+
+### 2. Is there a difference between the tooth length by dose(0.5,1,2)?
+
+$H_0$: There is no difference between dose 0.5 and 1 in terms of tooth length.  
+$H_A$: There is a difference between supp 0.5 and 1 in terms of tooth length.  
+
+```{r ht_2}
+library(dplyr)
+ToothGrowth.filtered<-filter(ToothGrowth, dose %in% c(0.5,1))
+
+t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
+```
+
+**As the p-value is <0.05 we can conclude: there is convincing evidence supporting hypothesis that there is a difference between 0.5 and 1 dose**
+
+$H_0$: There is no difference between dose 0.5 and 1 in terms of tooth length.  
+$H_A$: There is a difference between supp 0.5 and 1 in terms of tooth length.  
+
+```{r ht_3}
+library(dplyr)
+ToothGrowth.filtered<-filter(ToothGrowth, dose %in% c(1,2))
+
+test.3 <- t.test(len ~ dose, data=ToothGrowth.filtered, paired = FALSE)
+print(test.3)
+
+```
+
+**As the p-value is <0.05 we can conclude: there is convincing evidence supporting hypothesis that there is a difference between 1 and 2 dose**
+
+Given the results of the above test and taking into account basic summary of data (particularly the means in groups), we can be pretty sure that there is also a significant difference between dose 0.5 and 2.
 
 ## Conclusions
 
