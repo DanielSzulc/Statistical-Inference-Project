@@ -12,8 +12,8 @@ opts_chunk$set(fig.width=8, fig.height=3, dev = 'pdf')
 # Report
 ## Overview
 
-The aim of this report is to present acomparison between the simulated exponential distribution (using R random number generator) and theoretical distribution of sample means from exponential distribution (calculated based on Central Limit Theorem).
-We are going to see if the simulated sampling distribution is in line (in terms of center, spread and shape) with what we would expected based on Central Limit Theomrem.
+The aim of this report is to present a comparison between the simulated exponential distribution (using R random number generator) and theoretical distribution of sample means from exponential distribution (calculated based on Central Limit Theorem).
+We are going to see if the simulated sampling distribution is in line (in terms of centre, spread and shape) with what we would expected based on Central Limit Theorem.
 
 ## Simulation
 
@@ -30,7 +30,7 @@ population <- rexp(n,lambda)
 means <- sapply(seq_len(n), function(x) mean(rexp(sample.size,lambda)))
 ```
 
-We are conducting two simulations. In the first we are drawing 1000 observations from the exponentially distributed population (with $\lambda=0.2$). The second simulation drawing 1000 samples from the same population. The size of each sample is 40. The plot below show the effects of two simulations. The observations from the population (the first simulation) is plotted with light green color. The distribution of sample means (the second simulation) is plotted with "salomon" color.
+We are conducting two simulations. In the first we are drawing 1000 observations from the exponentially distributed population (with $\lambda=0.2$). The second simulation drawing 1000 samples from the same population. The size of each sample is 40. The plot below show the effects of two simulations. The observations from the population (the first simulation) is plotted with light green colour. The distribution of sample means (the second simulation) is plotted with "salmon" colour.
 
 ```{r}
 library(ggplot2)
@@ -41,7 +41,7 @@ geom_density(alpha=0.2)
 ```
 
 ## Sample Mean versus Theoretical Mean
-According to the Central Limit Theorem, we expect that distirbution of sample means for large enogh sample size is centered at true population mean. We know that the mean of exponential distribution is qual $\frac{1}{\lambda}$, therefore in this case $\frac{1}{0.2}=5$ (red veritcal line in the plot below). Simulated sample mean in our case is equal to `r mean(means)` (blue line in the plot below). As we can see, it is very close to the CLT theoretical mean. 
+According to the Central Limit Theorem, we expect that distribution of sample means for large enough sample size is centred at true population mean. We know that the mean of exponential distribution is equal $\frac{1}{\lambda}$, therefore in this case $\frac{1}{0.2}=5$ (red vertical line in the plot below). Simulated sample mean in our case is equal to `r mean(means)` (blue line in the plot below). As we can see, it is very close to the CLT theoretical mean. 
 
 ```{r}
 library(ggplot2)
@@ -58,7 +58,7 @@ ggplot(data.frame(x=means), aes(x))+geom_density(alpha=0.2, fill="salmon")+
  
 ## Sample Variance versus Theoretical Variance
 
-According to the Central Limit Theorem, we expect that variance of the distirbution of sample means for large enogh sample size is equal to population standard deviation divided by square root of sample size. We know that the standard deviation of exponential distribution is qual to $\frac{1}{\lambda}$, therefore in this case $\frac{1}{0.2}=5$. The theoretical sample standard deviation should be therefore equal to $\frac{5}{\sqrt{40}}$. As the standard deviation is the square root of the variance we know that theoretical sample variance is equal to $(\frac{5}{\sqrt{40}})^2$ so in this case `r (5/sqrt(40))^2`. The simulated sample variance is equal to `r var(means)` so it's very close.
+According to the Central Limit Theorem, we expect that variance of the distribution of sample means for large enough sample size is equal to population standard deviation divided by square root of sample size. We know that the standard deviation of exponential distribution is equal to $\frac{1}{\lambda}$, therefore in this case $\frac{1}{0.2}=5$. The theoretical sample standard deviation should be therefore equal to $\frac{5}{\sqrt{40}}$. As the standard deviation is the square root of the variance we know that theoretical sample variance is equal to $(\frac{5}{\sqrt{40}})^2$ so in this case `r (5/sqrt(40))^2`. The simulated sample variance is equal to `r var(means)` so it's very close.
 
 ```{r, fig.cap="Fig 2"}
 library(xtable)
@@ -72,7 +72,7 @@ print(figure, comment=FALSE, caption.placement="top", include.rownames=FALSE)
 ```
 
 ## Approximately normal sampling distribution
-According to the Central Limit Theorem, we expect that the distirbution of sample means is normal for large enough sample sizes. The plot below presents the distribution of observations drawn from the normal distribution with the mean 5 and standard deviation 5. As we can see, our distribution of sample follow the normal distribution pattern pretty closly. 
+According to the Central Limit Theorem, we expect that the distribution of sample means is normal for large enough sample sizes. The plot below presents the distribution of observations drawn from the normal distribution with the mean 5 and standard deviation 5. As we can see, our distribution of sample follow the normal distribution pattern pretty closely. 
 As the additional prove please the normal probability plot in the Appendix. In case of normally distributed data, all data points should lay close to the diagonal line. We can see that this condition is fairly met. Minor deviations in the both end of distribution may be due to not large enough sample size (remember, it is only 40 observations).
 
 ```{r fig.width=8}
@@ -83,7 +83,7 @@ ggplot(
 
 ```
 
-# Appendinx
+# Appendix
 ```{r}
 qqnorm(means)
 qqline(means)
